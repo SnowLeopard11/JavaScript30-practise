@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+<body>
+<canvas id="draw" width="800" height="800"></canvas>
+<script>
+    const canvas = document.getElementById("draw");
+    // const canvas = document.querySelector('#draw');
+    const ctx = canvas.getContext("2d");
+
+    // 为canvas表设置宽度高度与页面窗口相同
+    canvas.width = window.innnerWidth;
+    canvas.height = window.innerHeight;
+    // 设置笔触形状为round
+    ctx.lineCap = "round";
+    // 设置线条相交方式为round
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = "#f00";
+    ctx.fillStyle = "#f00";
+    ctx.lineWidth = 90;
+
+    // 为“是否在点击画画”设置一个false初始值
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    let direction = true;
+
+    
+    function draw(e){
+        // 如果没有按下鼠标则不进行操作
+        if(!isDrawing) return;
+
+        console.log(e);
+
+        ctx.strokeStyle = `hsl(${hue},100%,50%)`;
+
+        // 设置起点
+        ctx.beginPath();
+        // 设置终点
+        ctx.moveTo(lastX,lastY);
+        // 设置直线，从当前位置绘制到指定x、y坐标
+        ctx.lineTo(e.offsetX,e.offsetY);
+        // 通过线条绘制图片轮廓
+        ctx.stroke();
+        [lastX,lastY] = [e.offsetX,e.offsetY];
+
+        //设置彩虹HSL颜色的改变
+        
+       
+        hue++;
+        if (hue >= 360){hue = 0;}
+        
+
+        // 控制笔触的大小，让线条粗细发生渐变(通过定义direction范围来增大或减小粗细)
+        if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1){
+            direction = !direction;
+        }
+        if(direction){
+            ctx.lineWidth++;
+        }else{
+            ctx.lineWidth--;
+        }
+    }
+
+
+    // 为鼠标点击、移动、拿去与超出画布设置监听
+    canvas.addEventListener('mousedown',(e) =>{
+        isDrawing = true;
+        [lastX,lastY] = [e.offsetX,e.offsetY];
+    });
+    
+    // 开始绘画后会通过监听触发draw函数
+    canvas.addEventListener('mousemove',draw);
+    canvas.addEventListener('mouseup',() => isDrawing = false);
+    canvas.addEventListener('mouseout',() => isDrawing = false);
+
+    
+    </script>
+
+<style>
+  html, body {
+    margin: 0;
+  }
+</style>
+
+</body>
+</html>

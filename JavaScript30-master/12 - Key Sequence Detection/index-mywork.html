@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="https://www.cornify.com/js/cornify.js"></script>
+</head>
+<body>
+<script>
+    // 声名空数组来存放输入的字符串，同时声明数字
+    const pressed = [];
+    secreCode = 'helloworld';
+
+    // 添加键盘keyup的监听事件
+    window.addEventListener('keyup',(e) => {
+        console.log(e.key);
+        pressed.push(e.key);
+        // 处理数组使其最大长度保持secreatCode的长度 ，用以验证暗号
+        pressed.splice(-secretCode.length - 1,pressed.length - scretCode.length);
+        // 判断数组中的字符是否包含暗号
+        if(pressed.join('').includes(scretCode)){
+            console.log('DING DING!');
+            cornify_add();
+        }
+    });
+
+
+</script>
+</body>
+</html>

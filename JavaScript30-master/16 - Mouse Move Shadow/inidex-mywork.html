@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+    const hero = document.querySelector('.hero');
+    const h1 = document.querySelector('h1');
+    // 当鼠标移动至显示区域边界时，阴影距离占hero元素宽与高的比例
+    const factor = 0.4;
+
+    function shadowMove(e){
+        // 
+        const{
+            offsetWidth: width,
+            offsetHeight: height
+        } = hero;
+        //获取鼠标所在的位置并作为参数传入e，并赋值给offsetX offsetY为x y 
+        let{offsetX: x , offsetY: y} = e;
+        
+        // 如果鼠标移动时未触发事件接口，则将鼠标位置转换为相对于视口左上角的坐标
+        if(this !== e.target){
+
+            x = x + e.target.offsetLeft;
+            y = y + e.target.offsetTop;
+        }
+
+        // 阴影的偏移量：计算出鼠标距离h1中心的距离，用鼠标所在x y值减去hero元素的宽与高、再乘factor系数获得
+        const xWalk = parseInt((x-width/2)*factor);
+        const yWalk = parseInt((y-height/2)*factor);
+
+        // 通过以h1元素为中心旋转90°的方法生成四个阴影
+        h1.style.textShadow = `
+            ${xWalk}px ${yWalk}px 0 rgba(255,0,255,0.7),
+            ${xWalk* -1}px ${yWalk}px 0 rgba(0,255,255,0.7),
+            ${yWalk}px ${xWalk* -1}px 0 rgba(0,255,0,0.7),
+            ${xWalk}px ${yWalk}px 0 rgba(0,0,255,0.7)`;
+
+    }
+     // 在hero元素上为鼠标移动添加监听事件 ->在hero上添加监听的原因？
+     hero.addEventListener('mousemove',shadowMove);
+
+</script>
+</body>
+</html>

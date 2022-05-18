@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 20px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width: 50%;
+      height: 6px;
+      background: black;
+      position: absolute;
+      top: 50%;
+      transform: rotate(90deg);
+      transform-origin: 100%;
+      transition: all .5s;
+      transition-timing-function: step-end(1,end);
+    }
+
+  </style>
+
+  <script>
+
+        // var hourHand = document.getElementsByClassName("hour-hand");
+        // var minsHand = document.getElementsByClassName("min-hand");
+        // var secondHand = document.getElementsByClassName("second-hand");
+
+        const secondHand = document.querySelector('.second-hand');
+        const minsHand = document.querySelector('.min-hand');
+        const hourHand = document.querySelector('.hour-hand');
+
+      function timeSetting(){
+          const d = new Date();
+
+
+          var hr = d.getHours();
+          var mi = d.getMinutes();
+          var se = d.getSeconds();       
+          
+          const hourdeg = 90 + 30 * hr;
+          const mindeg = 90 + 6 * mi;
+          const seconddeg = 90 + 6 * se ;
+
+          hourHand.style.transform = `rotate(${hourdeg}deg)`;
+          minsHand.style.transform = `rotate(${mindeg}deg)`;
+          secondHand.style.transform = `rotate(${seconddeg}deg)`;
+
+      }
+
+      setInterval(timeSetting,1000);
+
+      timeSetting();
+     
+
+  </script>
+</body>
+</html>
